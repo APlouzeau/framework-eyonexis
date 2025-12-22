@@ -1,0 +1,7 @@
+{
+    "eslint.workingDirectories": ["./frontend"],
+    "sonarlint.connectedMode.project": {
+        "connectionId": "eyonexis",
+        "projectKey": "APlouzeau_flepourtous"
+    }
+}
