@@ -2,10 +2,16 @@
 
 class ControllerUserProfile extends ControllerBaseUser
 {
+
+    protected $modelUserProfile;
+    public function __construct()
+    {
+        $this->modelUserProfile = new ModelUserProfile();
+    }
     public function getUserInformations()
     {
         $this->requireAuth();
-        $user = $this->modelUser->getUser(new EntitieUser([ID_USER => $_SESSION[ID_USER]]));
+        $user = $this->modelUserProfile->getUser(new EntitieUser([ID_USER => $_SESSION[ID_USER]]));
         if (!$user) {
             JsonResponse::error(
                 'Utilisateur non trouvé',
@@ -45,7 +51,7 @@ class ControllerUserProfile extends ControllerBaseUser
             );
         }
 
-        $existingUserId = $this->modelUser->checkMail($data[MAIL]);
+        $existingUserId = $this->modelUserProfile->checkMail($data[MAIL]);
         if ($existingUserId && $existingUserId != $_SESSION[ID_USER]) {
             JsonResponse::error(
                 'Cette adresse e-mail est déjà utilisée par un autre utilisateur.',
@@ -68,7 +74,7 @@ class ControllerUserProfile extends ControllerBaseUser
         ];
 
         $user = new EntitieUser($updateData);
-        $updateResult = $this->modelUser->updateUser($user);
+        $updateResult = $this->modelUserProfile->updateUser($user);
 
         if ($updateResult) {
             JsonResponse::success(
@@ -89,7 +95,7 @@ class ControllerUserProfile extends ControllerBaseUser
         $data = $this->ensureDataReady();
         $this->ensureRequiredFields($data, ['oldPassword', 'newPassword', 'confirmNewPassword']);
 
-        $passwordsOk = $this->modelUser->checkPassword($_SESSION[ID_USER], $data['oldPassword']);
+        $passwordsOk = $this->modelUserProfile->checkPassword($_SESSION[ID_USER], $data['oldPassword']);
         if (!$passwordsOk) {
             JsonResponse::error(
                 'Ancien mot de passe incorrect',
@@ -109,13 +115,10 @@ class ControllerUserProfile extends ControllerBaseUser
             );
         }
 
-        $user = new EntitieUser([
-            ID_USER => $_SESSION[ID_USER],
-            PASSWORD => password_hash($data['newPassword'], PASSWORD_BCRYPT),
-        ]);
+        $idUser = $_SESSION[ID_USER];
+        $password = password_hash($data['newPassword'], PASSWORD_BCRYPT);
 
-        $updateResult = $this->modelUser->updateUserPassword($user);
-
+        $updateResult = $this->modelUserProfile->updatePassword($idUser, $password);
         if (!$updateResult) {
             JsonResponse::error(
                 'Erreur lors de la mise à jour du mot de passe',

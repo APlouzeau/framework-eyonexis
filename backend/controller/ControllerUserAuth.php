@@ -4,11 +4,11 @@
 class ControllerUserAuth extends ControllerBaseUser
 {
     protected $controllerMail;
-
+    protected $modelUserAuth;
     public function __construct()
     {
-        parent::__construct();
         $this->controllerMail = new ControllerBaseMail();
+        $this->modelUserAuth = new ModelUserAuth();
     }
     public function login()
     {
@@ -17,7 +17,7 @@ class ControllerUserAuth extends ControllerBaseUser
         $mail = $data[MAIL];
         $password = $data[PASSWORD];
 
-        $userVerify = $this->modelUser->login($mail, $password);
+        $userVerify = $this->modelUserAuth->login($mail, $password);
 
         if ($userVerify === null) {
             JsonResponse::error(
@@ -54,10 +54,10 @@ class ControllerUserAuth extends ControllerBaseUser
         $this->ensureRequiredFields($data, [MAIL]);
 
         $mail = $data[MAIL];
-        $userId = $this->modelUser->checkMail($mail);
+        $userId = $this->modelUserAuth->checkMail($mail);
         if ($userId) {
             $verificationToken = hash('sha256', $data[MAIL] . CRON_KEY);
-            $this->modelUser->setNewToken($userId, $verificationToken);
+            $this->modelUserAuth->setNewToken($userId, $verificationToken);
 
             $this->controllerMail->sendMailToForgetedPassword($mail, $verificationToken);
 
@@ -81,7 +81,7 @@ class ControllerUserAuth extends ControllerBaseUser
             exit();
         }
 
-        $userId = $this->modelUser->verifyEmail($token);
+        $userId = $this->modelUserAuth->verifyEmail($token);
         if (!$userId) {
             header('Location: ' . URI_FRONT . 'echec?raison=token_invalide');
             exit();
@@ -110,7 +110,7 @@ class ControllerUserAuth extends ControllerBaseUser
         }
 
         $password = password_hash($data['newPassword'], PASSWORD_BCRYPT);
-        $updatePassword = $this->modelUser->updatePassword($_SESSION[ID_USER], $password);
+        $updatePassword = $this->modelUserAuth->updatePassword($_SESSION[ID_USER], $password);
         if (!$updatePassword) {
             JsonResponse::error(
                 'Erreur lors de la mise à jour du mot de passe',

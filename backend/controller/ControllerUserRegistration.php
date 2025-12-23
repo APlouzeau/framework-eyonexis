@@ -4,11 +4,12 @@
 class ControllerUserRegistration extends ControllerBaseUser
 {
     protected $controllerMail;
+    protected $modelUserRegistration;
 
     public function __construct()
     {
-        parent::__construct();
         $this->controllerMail = new ControllerBaseMail();
+        $this->modelUserRegistration = new ModelUserRegistration();
     }
     public function register()
     {
@@ -31,7 +32,7 @@ class ControllerUserRegistration extends ControllerBaseUser
             );
         }
 
-        $checkMail = $this->modelUser->checkMail($data[MAIL]);
+        $checkMail = $this->modelUserRegistration->checkMail($data[MAIL]);
         if ($checkMail) {
             JsonResponse::error(
                 'Cette adresse e-mail est déjà utilisée.',
@@ -49,7 +50,7 @@ class ControllerUserRegistration extends ControllerBaseUser
             'verifyToken' => $verificationToken,
         ]);
 
-        $register = $this->modelUser->register($user);
+        $register = $this->modelUserRegistration->register($user);
 
         if (!$register) {
             JsonResponse::error(
@@ -72,7 +73,7 @@ class ControllerUserRegistration extends ControllerBaseUser
             header('Location: ' . URI_FRONT . 'echec?raison=token_manquant');
             exit();
         }
-        $user = $this->modelUser->verifyEmail($token);
+        $user = $this->modelUserRegistration->verifyEmail($token);
         if ($user) {
             header('Location: ' . URI_FRONT . 'success');
             exit();

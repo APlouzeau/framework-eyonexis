@@ -30,8 +30,8 @@ Ce projet dispose de 3 environnements distincts :
 **Commande :** `make preprod`
 **URLs :**
 
--   Frontend: https://YOUR_APP_NAME.plouzor.fr
--   Backend: https://api.YOUR_APP_NAME.plouzor.fr
+-   Frontend: https://YOUR_APP_NAME.YOUR_DOMAIN.fr
+-   Backend: https://api.YOUR_APP_NAME.YOUR_DOMAIN.fr
 
 **Caractéristiques :**
 
@@ -62,26 +62,6 @@ Ce projet dispose de 3 environnements distincts :
     # Sur le VPS
     make preprod
     ```
-
----
-
-## 🐛 Pour débugger le bug de rendez-vous
-
-### Problème actuel
-
-Les `console.log()` n'apparaissent pas car preprod n'a pas de hot reload.
-
-### Solution
-
-```bash
-# Sur le VPS
-cd ~/projects/preprod/YOUR_APP_NAME
-git checkout preprod  # ou ta branche de feature
-make staging
-
-# Maintenant tu peux modifier le code et voir les changements instantanément
-docker logs -f frontend-staging  # Pour voir les logs
-```
 
 ---
 
@@ -127,13 +107,8 @@ make build-preprod   # Preprod
 
 ## ⚠️ Points d'attention
 
-1. **Preprod = Production-like**
-   Toujours valider sur preprod avant de merger dans `main`.
-
-2. **Hot reload = Performance dégradée**
-   Staging sera plus lent que preprod à cause du mode dev.
-
----
+**Preprod = Production-like**
+Toujours valider sur preprod avant de merger dans `main`.
 
 ## 🎯 Résumé visuel
 

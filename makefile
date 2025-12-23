@@ -33,7 +33,7 @@ first-install: check-pnpm network ## Installation complète pour nouveau projet
 	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_PREPROD_FILE) build
 	@echo "📦 Installation des dépendances backend via Docker..."
 	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_PREPROD_FILE) run --rm backend composer install
-	make preprod
+	make dev
 
 # Setup pour la préprod
 first-install-preprod: check-pnpm network ## Installation pour environnement préprod

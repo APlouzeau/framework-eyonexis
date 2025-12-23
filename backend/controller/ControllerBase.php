@@ -4,12 +4,6 @@ class ControllerBase
 {
     use JsonRequestHandler;
 
-    protected $modelUser;
-
-    public function __construct()
-    {
-        $this->modelUser = new ModelUser();
-    }
 
     /**
      * Vérifie que l'utilisateur est connecté

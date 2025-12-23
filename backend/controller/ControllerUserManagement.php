@@ -3,10 +3,15 @@
 
 class ControllerUserManagement extends ControllerBaseUser
 {
+    private $modelUserManagement;
+    public function __construct()
+    {
+        $this->modelUserManagement = new ModelUserManagement();
+    }
     public function listUsers()
     {
         $this->requireAdmin(); // Vérifie connexion + role admin
-        $users = $this->modelUser->getAllUsers();
+        $users = $this->modelUserManagement->getAllUsers();
         $result = [];
         foreach ($users as $user) {
             $result[] = [
@@ -27,7 +32,7 @@ class ControllerUserManagement extends ControllerBaseUser
 
         $idUser = $data['idUser'];
         $user = new EntitieUser(['idUser' => $idUser]);
-        $this->modelUser->deleteUser($user);
+        $this->modelUserManagement->deleteUser($user);
 
         JsonResponse::success('Utilisateur supprimé', ['idUser' => $idUser]);
     }
