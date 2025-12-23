@@ -68,21 +68,22 @@ extends ClassDatabase
         $req->execute();
         $data = $req->fetch();
         if ($data) {
-            $user =
-                [
-                    'idUser' => $data['idUser'],
-                    'nickName' => $data['nickName'],
-                    'firstName' => $data['firstName'],
-                    'lastName' => $data['lastName'],
-                    'mail' => $data['mail'],
-                    'address' => $data['address'] ?? null,
-                    'address2' => $data['address_2'] ?? null,
-                    'address3' => $data['address_3'] ?? null,
-                    'zip' => $data['zip'] ?? null,
-                    'city' => $data['city'] ?? null,
-                    'country' => $data['country'] ?? null,
-                    'role' => $data['role'] ?? null
-                ];
+            $user = new EntitieUser(
+                    [
+                        'idUser' => $data['idUser'],
+                        'nickName' => $data['nickName'],
+                        'firstName' => $data['firstName'],
+                        'lastName' => $data['lastName'],
+                        'mail' => $data['mail'],
+                        'address' => $data['address'] ?? null,
+                        'address2' => $data['address_2'] ?? null,
+                        'address3' => $data['address_3'] ?? null,
+                        'zip' => $data['zip'] ?? null,
+                        'city' => $data['city'] ?? null,
+                        'country' => $data['country'] ?? null,
+                        'role' => $data['role'] ?? null
+                    ]
+                );
         } else {
             return null; // Utilisateur non trouvé
         }

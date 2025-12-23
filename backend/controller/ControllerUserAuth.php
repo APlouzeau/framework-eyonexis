@@ -1,106 +1,58 @@
 <?php
 
 
-class ControllerUserAuth extends ControllerUserVerify
+class ControllerUserAuth extends ControllerBaseUser
 {
+    protected $controllerMail;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->controllerMail = new ControllerBaseMail();
+    }
     public function login()
     {
-        $requestBody = file_get_contents('php://input');
-        $data = json_decode($requestBody, true);
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $mail = $data[MAIL];
-            $password = $data[PASSWORD];
 
-            $userVerify = $this->modelUser->login($mail, $password);
+        $data = $this->ensureDataReady();
+        $mail = $data[MAIL];
+        $password = $data[PASSWORD];
 
-            if ($userVerify === null) {
-                $response = [
-                    'code' => 0,
-                    'message' => 'Nom ou mot de passe incorrect.'
-                ];
-            }
-            if (isset($userVerify['isVerified']) && $userVerify['isVerified'] === false) {
-                $response = [
-                    'code' => 0,
-                    'message' => 'Utilisateur non vérifié. Veuillez vérifier votre adresse e-mail.'
-                ];
-            }
+        $userVerify = $this->modelUser->login($mail, $password);
 
-
-            if (isset($userVerify[ID_USER])) {
-                $_SESSION[ID_USER] = $userVerify[ID_USER];
-                $response = [
-                    'code' => 1,
-                    'message' => 'Connexion réussie.',
-                ];
-            }
-        } else {
-            $response = [
-                'code' => 0,
-                'message' => 'Erreur de méthode'
-            ];
+        if ($userVerify === null) {
+            JsonResponse::error(
+                'Mail ou mot de passe incorrect',
+                401
+            );
         }
-        echo json_encode($response);
+
+        $this->ensureRequiredFields($userVerify, ['isVerified']);
+        $this->ensureRequiredFields($userVerify, [ID_USER]);
+        JsonResponse::success(
+            'Connexion réussie',
+            [
+                ID_USER => $userVerify[ID_USER],
+                'isVerified' => $userVerify['isVerified']
+            ]
+        );
     }
+
 
     public function logout()
     {
         session_unset();
         session_destroy();
         setcookie(session_name(), "", time() - 3600, "/");
-        echo json_encode([
-            'code' => 1,
-            'message' => 'Deconnexion réussie.'
-        ]);
-    }
-
-    public function getUserInformations()
-    {
-        $this->verifyConnectBack();
-        $user = new EntitieUser([
-            ID_USER => $_SESSION[ID_USER]
-        ]);
-        $response = [
-            'code' => 1,
-            'message' => 'Utilisateur trouvé',
-            'data' =>
-            $this->modelUser->getUser($user)
-        ];
-
-        echo json_encode($response);
-    }
-
-    public function listUsers()
-    {
-        $users = $this->modelUser->getAllUsers();
-        $result = [];
-        foreach ($users as $user) {
-            $result[] = [
-                MAIL => $user->getMail(),
-            ];
-        }
-        echo json_encode($result);
+        JsonResponse::success(
+            'Deconnexion réussie.'
+        );
     }
 
     public function forgetedPassword()
     {
-        $requestBody = file_get_contents('php://input');
-        $data = json_decode($requestBody, true);
+        $data = $this->ensureDataReady();
+        $this->ensureRequiredFields($data, [MAIL]);
 
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            echo json_encode([
-                'code' => 0,
-                'message' => 'Erreur de méthode',
-            ]);
-            return;
-        }
-        if (!isset($data[MAIL])) {
-            echo json_encode([
-                'code' => 0,
-                'message' => 'Paramètre manquant (mail)',
-            ]);
-            return;
-        }
         $mail = $data[MAIL];
         $userId = $this->modelUser->checkMail($mail);
         if ($userId) {
@@ -109,16 +61,15 @@ class ControllerUserAuth extends ControllerUserVerify
 
             $this->controllerMail->sendMailToForgetedPassword($mail, $verificationToken);
 
-            echo json_encode([
-                'code' => 1,
-                'message' => 'Un e-mail de réinitialisation du mot de passe a été envoyé.',
-            ]);
-            return;
+            JsonResponse::success(
+                'Un e-mail de réinitialisation du mot de passe a été envoyé si l\'adresse e-mail est enregistrée.',
+                []
+            );
         } else {
-            echo json_encode([
-                'code' => 0,
-                'message' => 'Aucun utilisateur trouvé avec cette adresse e-mail.',
-            ]);
+            JsonResponse::error(
+                'Aucun utilisateur trouvé avec cette adresse e-mail.',
+                404
+            );
             return;
         }
     }
@@ -126,27 +77,53 @@ class ControllerUserAuth extends ControllerUserVerify
     public function resetPasswordLink($token = null)
     {
         if (!$token) {
-            echo json_encode([
-                'code' => 0,
-                'message' => 'Token manquant',
-            ]);
             header('Location: ' . URI_FRONT . 'echec-reinitialisation-du-mot-de-passe?raison=token_manquant');
-            return;
+            exit();
         }
 
         $userId = $this->modelUser->verifyEmail($token);
         if (!$userId) {
             header('Location: ' . URI_FRONT . 'echec?raison=token_invalide');
-            echo json_encode([
-                'code' => 0,
-                'message' => 'Token invalide ou expiré',
-            ]);
-            return;
+            exit();
         }
 
-        if ($userId) {
-            $_SESSION[ID_USER] = $userId;
-            header('Location: ' . URI_FRONT . 'reset-password');
+        $_SESSION[ID_USER] = $userId;
+        header('Location: ' . URI_FRONT . 'reset-password');
+        exit();
+    }
+
+    public function resetPassword()
+    {
+        $data = $this->ensureDataReady();
+        $this->ensureRequiredFields($data, ['newPassword', 'confirmNewPassword']);
+
+        $passwords = [
+            PASSWORD => $data['newPassword'],
+            'passwordConfirm' => $data['confirmNewPassword']
+        ];
+        $validation = $this->controlUserPasswordFormat($passwords);
+        if ($validation['code'] == 0) {
+            JsonResponse::error(
+                $validation['message'],
+                400
+            );
         }
+
+        $password = password_hash($data['newPassword'], PASSWORD_BCRYPT);
+        $updatePassword = $this->modelUser->updatePassword($_SESSION[ID_USER], $password);
+        if (!$updatePassword) {
+            JsonResponse::error(
+                'Erreur lors de la mise à jour du mot de passe',
+                500
+            );
+        }
+
+        session_unset();
+        session_destroy();
+        setcookie(session_name(), "", time() - 3600, "/");
+        JsonResponse::success(
+            'Mot de passe réinitialisé avec succès. Veuillez vous reconnecter.',
+            []
+        );
     }
 }

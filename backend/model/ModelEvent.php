@@ -205,7 +205,7 @@ class ModelEvent extends  ClassDatabase
     public function checkEvent(string $idEvent)
     {
         try {
-            $this->controllerError->debug("Checking event: ", $idEvent);
+            Logger::debug("Checking event: ", $idEvent);
             $req = $this->conn->prepare('SELECT * FROM event WHERE idEvent = :idEvent');
             $req->bindValue(':idEvent', $idEvent, PDO::PARAM_STR);
             $success = $req->execute();
@@ -263,7 +263,7 @@ class ModelEvent extends  ClassDatabase
 
     public function checkEventForNextHour()
     {
-        $this->controllerError->debug("Checking events for the next hour...");
+        Logger::debug("Checking events for the next hour...");
         $req = $this->conn->prepare('
         SELECT u.firstName, u.lastName, u.mail, e.description, e.startDateTime, e.visioLink, e.timezone
         FROM event e INNER JOIN users u ON e.userId = u.idUser
@@ -272,7 +272,7 @@ class ModelEvent extends  ClassDatabase
 
         $req->execute();
         $datas = $req->fetchAll();
-        $this->controllerError->debug("Found " . count($datas) . " events in the next hour.");
+        Logger::debug("Found " . count($datas) . " events in the next hour.");
         if (count($datas) > 0) {
             $events = [];
             foreach ($datas as $data) {
