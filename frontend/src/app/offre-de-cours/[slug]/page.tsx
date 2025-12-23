@@ -327,7 +327,7 @@ export default async function LessonPage(props: { params: tParams }) {
                                 {isAuthenticated ? "Réserver votre premier cours" : "Commencer maintenant"}
                             </Link>
                             <a
-                                href="mailto:flepourtous.online@gmail.com?subject=Demande%20d'information&body=Bonjour,%0D%0A%0D%0AJe%20souhaiterais%20obtenir%20plus%20d'informations%20sur%20vos%20cours%20de%20français.%0D%0A%0D%0AMerci."
+                                href="mailto:YOUR_APP_NAME.online@gmail.com?subject=Demande%20d'information&body=Bonjour,%0D%0A%0D%0AJe%20souhaiterais%20obtenir%20plus%20d'informations%20sur%20vos%20cours%20de%20français.%0D%0A%0D%0AMerci."
                                 className="inline-flex items-center justify-center px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-all duration-300"
                             >
                                 Nous contacter

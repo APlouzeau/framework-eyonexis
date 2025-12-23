@@ -1,10 +1,10 @@
-# FlePourTous - Online French Course Platform
+# YOUR_APP_NAME - Online French Course Platform
 
-Welcome to the FlePourTous project! This document will guide you through installing and running the project in a local development environment.
+Welcome to the YOUR_APP_NAME project! This document will guide you through installing and running the project in a local development environment.
 
 ## About
 
-FlePourTous is a web application that allows users to book online French as a Foreign Language (FLE) courses, manage their schedules, and pay through a secure platform.
+YOUR_APP_NAME is a web application that allows users to book online French as a Foreign Language (FLE) courses, manage their schedules, and pay through a secure platform.
 
 ## 🚀 Quick Start Guide
 
@@ -26,8 +26,8 @@ Ensure you have the following tools installed:
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/APlouzeau/flepourtous.git
-cd flepourtous
+git clone https://github.com/APlouzeau/YOUR_APP_NAME.git
+cd YOUR_APP_NAME
 
 # 2. Complete setup (dependencies + Docker build + launch)
 make first-install
@@ -127,8 +127,8 @@ The default `.env` file is configured for local development. For production or c
 ```bash
 # Database (configured for Docker by default)
 DB_HOST=db
-DB_NAME=flepourtous
-DB_USER=flepourtous
+DB_NAME=YOUR_APP_NAME
+DB_USER=YOUR_APP_NAME
 DB_PSW=1234
 DB_PORT=3306
 
@@ -216,8 +216,8 @@ Docker on Windows native can be **5-10x slower** than WSL2, especially for:
 
 ```bash
 # In your WSL Ubuntu terminal:
-git clone https://github.com/APlouzeau/flepourtous.git
-cd flepourtous
+git clone https://github.com/APlouzeau/YOUR_APP_NAME.git
+cd YOUR_APP_NAME
 
 # Configure environment (see Configuration section below)
 cp backend/.env.example backend/.env
@@ -260,8 +260,8 @@ If you prefer manual setup or don't have Make installed:
 Open a terminal and clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/APlouzeau/flepourtous.git
-cd flepourtous
+git clone https://github.com/APlouzeau/YOUR_APP_NAME.git
+cd YOUR_APP_NAME
 ```
 
 ### 2. Configure Environment Variables and Service Files
@@ -331,7 +331,7 @@ docker compose up --build -d
 
 The first time you run this, it may take a few minutes to download the base images and install dependencies.
 
-> **Database Note**: On the first launch, Docker will automatically import the database structure and initial data from the `db/flepourtous.sql` file. You don't need to do anything!
+> **Database Note**: On the first launch, Docker will automatically import the database structure and initial data from the `db/YOUR_APP_NAME.sql` file. You don't need to do anything!
 
 ### 4. You're All Set!
 
@@ -342,7 +342,7 @@ Your development environment is now accessible:
 -   **DB Management (PhpMyAdmin)**: [http://localhost:8081](http://localhost:8081)
 -   **Database (Direct Connection)**: `localhost:3307`
     -   Server: `db` (from containers) or `localhost:3307` (from host)
-    -   Username: `flepourtous`
+    -   Username: `YOUR_APP_NAME`
     -   Password: `1234`
 
 ## Development Workflow

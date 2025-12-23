@@ -30,7 +30,7 @@ class ControllerMail
 
             $this->mailer->CharSet = 'UTF-8';
 
-            $this->mailer->setFrom(MAIL_USERNAME, 'FlePourTous - Support');
+            $this->mailer->setFrom(MAIL_USERNAME, 'YOUR_APP_NAME - Support');
         } catch (Exception $e) {
             error_log("Mailer Error: " . $this->mailer->ErrorInfo);
             throw new Exception("Mailer could not be initialized: " . $e->getMessage());
@@ -43,13 +43,13 @@ class ControllerMail
         try {
             $this->mailer->addAddress($user->getMail());
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = "Vérification de votre adresse e-mail pour le site FlePourTous";
+            $this->mailer->Subject = "Vérification de votre adresse e-mail pour le site YOUR_APP_NAME";
 
             $emailBody = "Bonjour " . htmlspecialchars($user->getFirstName() . " " . $user->getLastName()) . ",<br><br>";
-            $emailBody .= "Merci de vous être inscrit sur FlePourTous ! Veuillez cliquer sur le lien ci-dessous pour vérifier votre adresse email :<br>";
+            $emailBody .= "Merci de vous être inscrit sur YOUR_APP_NAME ! Veuillez cliquer sur le lien ci-dessous pour vérifier votre adresse email :<br>";
             $emailBody .= "<a href=\"" . htmlspecialchars(URI_MAIL . "api/verify-email/" . $verificationToken) . "\">Cliquez ici pour confirmer votre email</a><br><br>";
             $emailBody .= "Si vous n'avez pas créé de compte, veuillez ignorer cet email.<br><br>";
-            $emailBody .= "Cordialement,<br>L'équipe Flepourtous";
+            $emailBody .= "Cordialement,<br>L'équipe YOUR_APP_NAME";
             $this->mailer->Body = $emailBody;
 
             $this->mailer->send();
@@ -104,16 +104,16 @@ class ControllerMail
         if ($event['mail'] == TEACHER_MAIL) {
             return;
         }
-            $eventDateTimeUtc = new DateTime($event['startDateTime']);
-            $eventDateTimeUserTimezone = $eventDateTimeUtc->setTimezone(new DateTimeZone($event['timezone']));
+        $eventDateTimeUtc = new DateTime($event['startDateTime']);
+        $eventDateTimeUserTimezone = $eventDateTimeUtc->setTimezone(new DateTimeZone($event['timezone']));
 
-            // Formatage en français avec IntlDateFormatter
-            $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
-            $eventHour = $eventDateTimeUserTimezone->format('G\hi');       // 14h30
+        // Formatage en français avec IntlDateFormatter
+        $formatter = new IntlDateFormatter('fr_FR', IntlDateFormatter::LONG, IntlDateFormatter::NONE);
+        $eventHour = $eventDateTimeUserTimezone->format('G\hi');       // 14h30
 
         $this->mailer->addAddress($event['mail']);
         $this->mailer->isHTML(true);
-        $this->mailer->Subject = "Appointment reminder on FlePourTous";
+        $this->mailer->Subject = "Appointment reminder on YOUR_APP_NAME";
 
 
         $emailBody = "Dear " . htmlspecialchars($event['firstName'] . " " . $event['lastName']) . ",<br><br>";
@@ -126,7 +126,7 @@ class ControllerMail
         if ($event['visioLink'] != '') {
             $emailBody .= "VisioLink : <a href=\"" . htmlspecialchars($event['visioLink']) . "\">" . "visiolink. </a><br>";
         }
-        $emailBody .= "<br>Warm regards,<br>Flepourtous Team";
+        $emailBody .= "<br>Warm regards,<br>YOUR_APP_NAME Team";
         $this->mailer->Body = $emailBody;
 
         $this->mailer->send();
@@ -153,7 +153,7 @@ class ControllerMail
         if ($event['visioLink'] != '') {
             $teacherEmailBody .= "Lien de visio : <a href=\"" . htmlspecialchars($event['visioLink']) . "\">" . "Cliquez ici à l'heure du rendez-vous</a><br>";
         }
-        $teacherEmailBody .= "<br>Cordialement,<br>L'équipe Flepourtous<br><br><br><br>";
+        $teacherEmailBody .= "<br>Cordialement,<br>L'équipe YOUR_APP_NAME<br><br><br><br>";
         $this->mailer->Body = $teacherEmailBody;
         $this->mailer->isHTML(true);
         $this->mailer->send();
@@ -178,11 +178,11 @@ class ControllerMail
 
         $this->mailer->addAddress($userInformations['mail']);
         $this->mailer->isHTML(true);
-        $this->mailer->Subject = "Annulation de rendez-vous sur FLEpourtous";
+        $this->mailer->Subject = "Annulation de rendez-vous sur YOUR_APP_NAME";
         $emailBody = "Bonjour " . htmlspecialchars($userInformations['firstName'] . " " . $userInformations['lastName']) . ",<br><br>";
         $emailBody .= "Nous vous informons que votre rendez-vous prévu le " . htmlspecialchars($appointmentDate) . " à " . htmlspecialchars($appointmentHour) . " a été annulé car vous n'avez pas réglé le montant de la leçon.<br>";
         $emailBody .= "Nous vous invitons à prendre un nouveau rendez-vous.";
-        $emailBody .= "Cordialement,<br>L'équipe Flepourtous";
+        $emailBody .= "Cordialement,<br>L'équipe YOUR_APP_NAME";
         $this->mailer->Body = $emailBody;
         $this->mailer->send();
         $this->mailer->clearAddresses();
@@ -194,13 +194,13 @@ class ControllerMail
         try {
             $this->mailer->addAddress($mail);
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = "Réinitialisation de votre mot de passe sur FlePourTous";
+            $this->mailer->Subject = "Réinitialisation de votre mot de passe sur YOUR_APP_NAME";
 
             $emailBody = "Bonjour " . ",<br><br>";
             $emailBody .= "Nous avons reçu une demande de réinitialisation de votre mot de passe. Veuillez cliquer sur le lien ci-dessous pour réinitialiser votre mot de passe :<br>";
             $emailBody .= "<a href=\"" . htmlspecialchars(URI . "api/reset-password/" . $token) . "\">" . "Lien de réinitialisation</a><br><br>";
             $emailBody .= "Si vous n'avez pas demandé cette réinitialisation, veuillez ignorer cet email.<br><br>";
-            $emailBody .= "Cordialement,<br>L'équipe Flepourtous";
+            $emailBody .= "Cordialement,<br>L'équipe YOUR_APP_NAME";
             $this->mailer->Body = $emailBody;
 
             $this->mailer->send();
@@ -215,7 +215,8 @@ class ControllerMail
             $this->controllerError->logs(
                 "Password reset email fail ",
                 [$this->mailer->ErrorInfo, $e->getMessage()],
-                self::MAIL_LOG_FILE);
+                self::MAIL_LOG_FILE
+            );
             return false;
         } finally {
             if ($this->mailer) {
@@ -251,9 +252,18 @@ class ControllerMail
 
             // Formatage en français - Traduction manuelle des mois
             $moisFr = [
-                1 => 'janvier', 2 => 'février', 3 => 'mars', 4 => 'avril',
-                5 => 'mai', 6 => 'juin', 7 => 'juillet', 8 => 'août',
-                9 => 'septembre', 10 => 'octobre', 11 => 'novembre', 12 => 'décembre'
+                1 => 'janvier',
+                2 => 'février',
+                3 => 'mars',
+                4 => 'avril',
+                5 => 'mai',
+                6 => 'juin',
+                7 => 'juillet',
+                8 => 'août',
+                9 => 'septembre',
+                10 => 'octobre',
+                11 => 'novembre',
+                12 => 'décembre'
             ];
             $jour = $eventDateTimeUserTimezone->format('j');
             $mois = $moisFr[(int)$eventDateTimeUserTimezone->format('n')];
@@ -263,12 +273,12 @@ class ControllerMail
 
             $this->mailer->addAddress($userMail);
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = "Flepourtous - Confirmation de paiement";
+            $this->mailer->Subject = "YOUR_APP_NAME - Confirmation de paiement";
 
             $emailBody = "Bonjour " . htmlspecialchars($user['firstName'] . " " . $user['lastName']) . ",<br><br>";
-            $emailBody .= "Merci d'avoir reservé un cours sur FlePourTous !<br>";
+            $emailBody .= "Merci d'avoir reservé un cours sur YOUR_APP_NAME !<br>";
             $emailBody .= "Nous vous confirmons que votre paiement a bien été pris en compte et que votre rendez-vous le " . htmlspecialchars($eventDate) . " à " . htmlspecialchars($eventHour) . " (heure " . htmlspecialchars($event['timezone']) . ")" . " est confirmé.<br>";
-            $emailBody .= "Cordialement,<br>L'équipe Flepourtous";
+            $emailBody .= "Cordialement,<br>L'équipe YOUR_APP_NAME";
             $this->mailer->Body = $emailBody;
 
             $this->mailer->send();
@@ -302,14 +312,14 @@ class ControllerMail
 
             $this->mailer->addAddress($userMail);
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = "Flepourtous - Confirmation d'achat de pack";
+            $this->mailer->Subject = "YOUR_APP_NAME - Confirmation d'achat de pack";
 
             $emailBody = "Bonjour " . htmlspecialchars($user['firstName'] . " " . $user['lastName']) . ",<br><br>";
-            $emailBody .= "Merci d'avoir acheté un pack de cours sur FlePourTous !<br><br>";
+            $emailBody .= "Merci d'avoir acheté un pack de cours sur YOUR_APP_NAME !<br><br>";
             $emailBody .= "Nous vous confirmons que votre paiement de " . htmlspecialchars(number_format($amount, 2, ',', ' ')) . " € a bien été pris en compte.<br>";
             $emailBody .= "Le montant a été crédité sur votre porte-monnaie électronique.<br><br>";
             $emailBody .= "Vous pouvez maintenant réserver vos cours en utilisant votre solde disponible.<br><br>";
-            $emailBody .= "Cordialement,<br>L'équipe Flepourtous";
+            $emailBody .= "Cordialement,<br>L'équipe YOUR_APP_NAME";
             $this->mailer->Body = $emailBody;
 
             $this->mailer->send();
@@ -338,13 +348,13 @@ class ControllerMail
         try {
             $this->mailer->addAddress($email);
             $this->mailer->isHTML(true);
-            $this->mailer->Subject = "Votre salle de visio Flepourtous";
+            $this->mailer->Subject = "Votre salle de visio YOUR_APP_NAME";
 
             $emailBody = "Bonjour,<br><br>";
             $emailBody .= "Votre salle de visio a été créée. Vous pouvez rejoindre la salle en cliquant sur le lien ci-dessous :<br>";
             $emailBody .= "<a href=\"" . htmlspecialchars($roomUrl) . "\">" . "Rejoindre la salle de visio</a><br><br>";
             $emailBody .= "La salle sera disponible pendant les prochaines " . htmlspecialchars($duration) . " minutes.<br><br>";
-            $emailBody .= "Cordialement,<br>L'équipe Flepourtous";
+            $emailBody .= "Cordialement,<br>L'équipe YOUR_APP_NAME";
             $this->mailer->Body = $emailBody;
 
             $this->mailer->send();
@@ -381,12 +391,12 @@ class ControllerMail
 
         $this->mailer->addAddress($userInformations['mail']);
         $this->mailer->isHTML(true);
-        $this->mailer->Subject = "Annulation de rendez-vous par l'administrateur sur FLEpourtous";
+        $this->mailer->Subject = "Annulation de rendez-vous par l'administrateur sur YOUR_APP_NAME";
         $emailBody = "Bonjour " . htmlspecialchars($userInformations['firstName'] . " " . $userInformations['lastName']) . ",<br><br>";
         $emailBody .= "Nous vous informons que votre rendez-vous prévu le " . htmlspecialchars($appointmentDate) . " à " . htmlspecialchars($appointmentHour) . " a été annulé par l'administrateur du site.<br>";
         $emailBody .= "Le montant de " . htmlspecialchars($amount) . " € a été recrédité sur votre porte-monnaie électronique.<br>";
         $emailBody .= "Nous vous invitons à prendre un nouveau rendez-vous.<br>";
-        $emailBody .= "Cordialement,<br>L'équipe Flepourtous";
+        $emailBody .= "Cordialement,<br>L'équipe YOUR_APP_NAME";
         $this->mailer->Body = $emailBody;
         $this->mailer->send();
         $this->controllerError->logs("Admin cancellation email sent", [

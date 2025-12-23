@@ -3,7 +3,6 @@
 # Variables
 COMPOSE_FILE = docker-compose.yml
 COMPOSE_DEV_FILE = docker-compose.dev.yml
-COMPOSE_STAGING_FILE = docker-compose.staging.yml
 COMPOSE_PREPROD_FILE = docker-compose.preprod.yml
 COMPOSE_PROD_FILE = docker-compose.prod.yml
 FRONTEND_DIR = frontend
@@ -70,9 +69,6 @@ build-preprod: ## Build les images Docker pour préprod
 build-prod: ## Build les images Docker pour production
 	docker compose -f $(COMPOSE_PROD_FILE) build
 
-build-staging: ## Build les images Docker pour staging
-	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_STAGING_FILE) build
-
 network: ## Crée le réseau web s'il n'existe pas
 	@docker network inspect web >/dev/null 2>&1 || docker network create web
 
@@ -85,37 +81,25 @@ dev: network build ## Lance l'environnement de développement
 	@echo "🗃️  PhpMyAdmin: http://localhost:8081"
 	@echo "🗄️  Database: localhost:3307 (pour connexions externes)"
 
-staging: network build-staging ## Lance l'environnement staging (debug avec hot reload)
-	@echo "🔥 Démarrage de l'environnement staging..."
-	@echo "📌 Branche actuelle: $$(git branch --show-current)"
-	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_STAGING_FILE) up -d
-	@echo "✅ Environnement staging prêt avec HOT RELOAD !"
-	@echo "📱 Frontend: https://staging.flepourtous.plouzor.fr"
-	@echo "🔧 Backend: https://api-staging.flepourtous.plouzor.fr"
-	@echo "💡 Les modifications de code sont appliquées en temps réel"
-
 preprod: network build-preprod ## Lance l'environnement de préprod
 	@echo "🔥 Démarrage de l'environnement de préprod..."
 	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_PREPROD_FILE) up -d
 	@echo "✅ Environnement préprod prêt !"
-	@echo "📱 Frontend: https://flepourtous.plouzor.fr"
-	@echo "🔧 Backend: https://api.flepourtous.plouzor.fr"
+	@echo "📱 Frontend: https://YOUR_APP_NAME.plouzor.fr"
+	@echo "🔧 Backend: https://api.YOUR_APP_NAME.plouzor.fr"
 
 prod: network ## Lance l'environnement de production
 	@echo "🔥 Démarrage de l'environnement de production..."
 	docker compose -f $(COMPOSE_PROD_FILE) up --build -d
 	@echo "✅ Environnement production prêt !"
-	@echo "📱 Frontend: https://flepourtous.fr"
-	@echo "🔧 Backend: https://api.flepourtous.fr"
+	@echo "📱 Frontend: https://YOUR_APP_NAME.fr"
+	@echo "🔧 Backend: https://api.YOUR_APP_NAME.fr"
 
 up: ## Démarre les services (sans rebuild)
 	docker compose -f $(COMPOSE_FILE) up -d
 
 up-preprod: ## Démarre les services préprod (sans rebuild)
 	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_PREPROD_FILE) up -d
-
-up-staging: ## Démarre les services staging (sans rebuild)
-	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_STAGING_FILE) up -d
 
 down: ## Arrête tous les services
 	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) --profile dev down
@@ -126,14 +110,9 @@ down-prod: ## Arrête les services production
 down-preprod: ## Arrête les services préprod
 	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_PREPROD_FILE) down
 
-down-staging: ## Arrête les services staging
-	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_STAGING_FILE) down
-
 restart-dev: down dev ## Redémarre complètement l'environnement
 
 restart-preprod: down-preprod preprod ## Redémarre complètement l'environnement préprod
-
-restart-staging: down-staging staging ## Redémarre complètement l'environnement staging
 
 restart-prod: down-prod prod ## Redémarre complètement l'environnement production
 
@@ -142,13 +121,10 @@ logs: ## Affiche les logs de tous les services
 	docker compose -f $(COMPOSE_FILE) logs -f
 
 logs-backend: ## Logs du backend uniquement
-	docker logs flepourtous-prod-api -f 2>/dev/null || docker compose -f $(COMPOSE_FILE) logs -f api
+	docker logs YOUR_APP_NAME-prod-api -f 2>/dev/null || docker compose -f $(COMPOSE_FILE) logs -f api
 
 logs-frontend: ## Logs du frontend uniquement
-	docker logs flepourtous-prod-frontend -f 2>/dev/null || docker compose -f $(COMPOSE_FILE) logs -f app
-
-logs-staging: ## Logs de l'environnement staging
-	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_STAGING_FILE) logs -f
+	docker logs YOUR_APP_NAME-prod-frontend -f 2>/dev/null || docker compose -f $(COMPOSE_FILE) logs -f app
 
 logs-preprod: ## Logs de l'environnement preprod
 	docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_PREPROD_FILE) logs -f
@@ -178,7 +154,7 @@ shell-frontend: ## Shell dans le container frontend
 
 db-backup: ## Sauvegarde la base de données
 	@echo "💾 Sauvegarde de la base..."
-	docker compose -f $(COMPOSE_FILE) exec db mysqldump -u flepourtous -p1234 flepourtous > backup-$(shell date +%Y%m%d-%H%M%S).sql
+	docker compose -f $(COMPOSE_FILE) exec db mysqldump -u YOUR_APP_NAME -p1234 YOUR_APP_NAME > backup-$(shell date +%Y%m%d-%H%M%S).sql
 
 status: ## Vérifie l'état des services
 	@echo "📊 État des services :"
@@ -200,25 +176,25 @@ db-debug: ## Debug l'initialisation de la base
 	@echo "\n🐳 État du container db :"
 	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) ps db
 	@echo "\n📋 Tables actuelles dans la base :"
-	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) exec db mysql -u flepourtous -p1234 flepourtous -e "SHOW TABLES;" 2>/dev/null || echo "❌ Impossible de se connecter à la base"
+	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) exec db mysql -u YOUR_APP_NAME -p1234 YOUR_APP_NAME -e "SHOW TABLES;" 2>/dev/null || echo "❌ Impossible de se connecter à la base"
 
-db-import: ## Importe le schéma flepourtous.sql
-	@echo "📥 Import du schéma flepourtous.sql..."
-	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) exec -T db mysql -u flepourtous -p1234 flepourtous < db/flepourtous.sql
+db-import: ## Importe le schéma YOUR_APP_NAME.sql
+	@echo "📥 Import du schéma YOUR_APP_NAME.sql..."
+	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) exec -T db mysql -u YOUR_APP_NAME -p1234 YOUR_APP_NAME < db/YOUR_APP_NAME.sql
 	@echo "✅ Schéma importé !"
 	@echo "📋 Vérification - tables créées :"
-	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) exec db mysql -u flepourtous -p1234 flepourtous -e "SHOW TABLES;"
+	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) exec db mysql -u YOUR_APP_NAME -p1234 YOUR_APP_NAME -e "SHOW TABLES;"
 
 db-reset: ## Recrée la base complètement avec le schéma
 	@echo "🗑️  Reset complet de la base..."
 	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) --profile dev down
 	@sudo rm -rf db_data/
-	@docker volume rm flepourtous_db_data 2>/dev/null || true
+	@docker volume rm YOUR_APP_NAME_db_data 2>/dev/null || true
 
 
 db-drop-recreate: ## Drop et recréation des tables
 	@echo "🗑️  Suppression et recréation des tables..."
-	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) exec db mysql -u flepourtous -p1234 flepourtous -e "DROP	DATABASE IF EXISTS flepourtous; CREATE DATABASE flepourtous;"
+	@docker compose -f $(COMPOSE_FILE) -f $(COMPOSE_DEV_FILE) exec db mysql -u YOUR_APP_NAME -p1234 YOUR_APP_NAME -e "DROP	DATABASE IF EXISTS YOUR_APP_NAME; CREATE DATABASE YOUR_APP_NAME;"
 	@$(MAKE) db-import
 
 reset-all: 

@@ -10,7 +10,7 @@ export default function MyComponent() {
     const [data, setData] = useState<User[]>();
 
     useEffect(() => {
-        fetch("http://flepourtous.localhost/api/users", {
+        fetch("http://YOUR_APP_NAME.localhost/api/users", {
             credentials: "same-origin",
         })
             .then((response) => response.json())

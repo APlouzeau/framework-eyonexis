@@ -1,14 +1,14 @@
 #!/bin/bash
 
-pm2 stop flepourtous-preprod
+pm2 stop YOUR_APP_NAME-preprod
 
-rm -rf /home/projects/flepourtous-preprod/.next
+rm -rf /home/projects/YOUR_APP_NAME-preprod/.next
 
 # Build the Next.js application
 npm run build
 
 # Start the Next.js application with PM2
-pm2 start npm --name "flepourtous-preprod" -- start
+pm2 start npm --name "YOUR_APP_NAME-preprod" -- start
 
 # Save the PM2 process list and corresponding environments
 pm2 save

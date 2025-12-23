@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
         {
-            name: "flepourtous-preprod",
+            name: "YOUR_APP_NAME-preprod",
             script: "npm",
             args: "run start",
             watch: true,

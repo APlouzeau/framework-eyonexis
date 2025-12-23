@@ -26,15 +26,15 @@ CREATE TABLE `event` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO event (idEvent, userId, description, duration, createdAt, startDateTime, timezone, updatedAt, status, visioLink, id_lesson, is_invoiced) VALUES
-('18inpml9muml2gi7pmmo911f2g', 1, '', 60, '2025-10-04 21:14:56', '2025-10-11 19:00:00', 'Europe/Paris', '2025-10-04 21:14:59', 'Payé', 'https://flepourtous.daily.co/PXu2sUFoJKLAHOYgyMIF', 2, 0),
-('71i5dmogdsp590a2h6ureuk3mc', 1, '', 60, '2025-09-01 20:39:18', '2025-09-02 07:30:00', 'UTC', '2025-09-30 21:39:53', 'Payé', 'https://flepourtous.daily.co/VHOWVMDVbF61qeGOxwJY', 1, 0),
-('7238h5mk339h2tldnjjodfl85c', 1, '', 60, '2025-10-04 21:14:23', '2025-10-06 08:00:00', 'Europe/Paris', '2025-10-04 21:14:27', 'Payé', 'https://flepourtous.daily.co/OtVwWqB96Qv3L9IqGRy9', 1, 0),
-('986iitl9q24t0k0r50vrt1s5s4', 1, '', 30, '2025-09-01 20:10:42', '2025-09-03 06:00:00', 'UTC', '2025-09-30 21:39:55', 'Payé', 'https://flepourtous.daily.co/73Ya6FigOwuZGbPhsxfn', 1, 0),
-('9cmei0esfomp6ti4g4t8f173ds', 1, '', 60, '2025-10-04 21:15:21', '2025-10-30 07:00:00', 'Europe/Paris', '2025-10-04 21:24:41', 'Annulé - Remboursé', 'https://flepourtous.daily.co/9ehyVQAYibZOvPXADHGz', 2, 0),
-('lf3pkb4fh66pi4kat3108p6k4c', 4, 'JE suis anglais', 60, '2025-10-07 15:57:31', '2025-10-30 14:30:00', 'Europe/Paris', '2025-10-07 15:57:31', 'En attente', 'https://flepourtous.daily.co/Ab1zAVB10x5aXJ5rVerK', 2, 0),
-('ljtqa77blfbv8pahc5dk49cdck', 1, '', 30, '2025-10-04 21:15:43', '2025-10-06 09:00:00', 'Europe/Paris', '2025-10-04 21:16:13', 'Payé', 'https://flepourtous.daily.co/UOyjRrPdLJQCAQYCCzYx', 1, 0),
-('mnvb6u6i4acf75en4dbnt4k6pk', 1, '', 30, '2025-10-04 21:47:35', '2025-10-07 06:00:00', 'Europe/Paris', '2025-10-04 21:47:38', 'Payé', 'https://flepourtous.daily.co/7Vaz4YZbOv9t2dFe8akQ', 1, 0),
-('s8k36aiur95829e63flb8v3u1g', 1, '', 60, '2025-09-30 19:13:16', '2025-10-01 12:00:00', 'Europe/Paris', '2025-09-30 21:47:15', 'Payé', 'https://flepourtous.daily.co/3Dj2PemSh56rr2orxgKm', 1, 1);
+('18inpml9muml2gi7pmmo911f2g', 1, '', 60, '2025-10-04 21:14:56', '2025-10-11 19:00:00', 'Europe/Paris', '2025-10-04 21:14:59', 'Payé', 'https://YOUR_APP_NAME.daily.co/PXu2sUFoJKLAHOYgyMIF', 2, 0),
+('71i5dmogdsp590a2h6ureuk3mc', 1, '', 60, '2025-09-01 20:39:18', '2025-09-02 07:30:00', 'UTC', '2025-09-30 21:39:53', 'Payé', 'https://YOUR_APP_NAME.daily.co/VHOWVMDVbF61qeGOxwJY', 1, 0),
+('7238h5mk339h2tldnjjodfl85c', 1, '', 60, '2025-10-04 21:14:23', '2025-10-06 08:00:00', 'Europe/Paris', '2025-10-04 21:14:27', 'Payé', 'https://YOUR_APP_NAME.daily.co/OtVwWqB96Qv3L9IqGRy9', 1, 0),
+('986iitl9q24t0k0r50vrt1s5s4', 1, '', 30, '2025-09-01 20:10:42', '2025-09-03 06:00:00', 'UTC', '2025-09-30 21:39:55', 'Payé', 'https://YOUR_APP_NAME.daily.co/73Ya6FigOwuZGbPhsxfn', 1, 0),
+('9cmei0esfomp6ti4g4t8f173ds', 1, '', 60, '2025-10-04 21:15:21', '2025-10-30 07:00:00', 'Europe/Paris', '2025-10-04 21:24:41', 'Annulé - Remboursé', 'https://YOUR_APP_NAME.daily.co/9ehyVQAYibZOvPXADHGz', 2, 0),
+('lf3pkb4fh66pi4kat3108p6k4c', 4, 'JE suis anglais', 60, '2025-10-07 15:57:31', '2025-10-30 14:30:00', 'Europe/Paris', '2025-10-07 15:57:31', 'En attente', 'https://YOUR_APP_NAME.daily.co/Ab1zAVB10x5aXJ5rVerK', 2, 0),
+('ljtqa77blfbv8pahc5dk49cdck', 1, '', 30, '2025-10-04 21:15:43', '2025-10-06 09:00:00', 'Europe/Paris', '2025-10-04 21:16:13', 'Payé', 'https://YOUR_APP_NAME.daily.co/UOyjRrPdLJQCAQYCCzYx', 1, 0),
+('mnvb6u6i4acf75en4dbnt4k6pk', 1, '', 30, '2025-10-04 21:47:35', '2025-10-07 06:00:00', 'Europe/Paris', '2025-10-04 21:47:38', 'Payé', 'https://YOUR_APP_NAME.daily.co/7Vaz4YZbOv9t2dFe8akQ', 1, 0),
+('s8k36aiur95829e63flb8v3u1g', 1, '', 60, '2025-09-30 19:13:16', '2025-10-01 12:00:00', 'Europe/Paris', '2025-09-30 21:47:15', 'Payé', 'https://YOUR_APP_NAME.daily.co/3Dj2PemSh56rr2orxgKm', 1, 1);
 
 CREATE TABLE google (
   canalId varchar(250) NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE google (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO google (canalId, resourceId, resourceUri, expiration, token, calendarId) VALUES
-('flepourtous_channel_68325d811eb29', 'rlubMlfOuXotsL7ysp39hC_at1Y', 'https://www.googleapis.com/calendar/v3/calendars/ef7995ba9623e0baa51a0050ba9c48ab6a191193f402b024ddcf27864434b807%40group.calendar.google.com/events?alt=json', 1748736001000, 'Jr7mc0St05S9cuDCShp1FoC2rcBxfReK1YU6oiTU0bwGtAhHvRkHIdCtGAKd98FP', NULL);
+('YOUR_APP_NAME_channel_68325d811eb29', 'rlubMlfOuXotsL7ysp39hC_at1Y', 'https://www.googleapis.com/calendar/v3/calendars/ef7995ba9623e0baa51a0050ba9c48ab6a191193f402b024ddcf27864434b807%40group.calendar.google.com/events?alt=json', 1748736001000, 'Jr7mc0St05S9cuDCShp1FoC2rcBxfReK1YU6oiTU0bwGtAhHvRkHIdCtGAKd98FP', NULL);
 
 CREATE TABLE googleSync (
   idCalendar varchar(90) NOT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE users (
 
 INSERT INTO users (idUser, firstName, lastName, role, mail, nickName, password, wallet, address, address_2, address_3, zip, city, country, dateInscription, isVerified, verifyToken) VALUES
 (1, 'cezcxze', 'cezczecz', 'user', 'eyola@live.fr', 'cxzeczec', '$2y$12$X9baMPUou.1gTIMffUttXupxHsv4Mnwn766Sa1AbquSJ7oyrjXdnC', 209.00, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-18 23:40:31', 1, '830999bce58e3c57415d1028247535bac27fae52192af566f90737ca854364c6'),
-(3, 'Ludivine', 'Plouzeau', 'admin', 'flepourtous.online@gmail.com', 'Lulu', '$2y$12$9HihvTfGVjK0ejnJtbQ/jOaXVCGbHg54VMzks3LyZNLw/0tTGGhVO', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, '2025-10-04 17:28:49', 1, '79fd01a7ea72aab8184748664d435f946951214f6fb006752f99a377e5e74734'),
+(3, 'Ludivine', 'Plouzeau', 'admin', 'YOUR_APP_NAME.online@gmail.com', 'Lulu', '$2y$12$9HihvTfGVjK0ejnJtbQ/jOaXVCGbHg54VMzks3LyZNLw/0tTGGhVO', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, '2025-10-04 17:28:49', 1, '79fd01a7ea72aab8184748664d435f946951214f6fb006752f99a377e5e74734'),
 (4, 'Duncan', 'Gaubert', 'user', 'egaube0494@gmail.com', 'Dunky', '$2y$12$GoKzGwx.9PKbfUVIMgrHPuqWh1YMLtjmoeyADFTDUluiN7vpw4w4C', 0.00, NULL, NULL, NULL, NULL, NULL, NULL, '2025-10-04 17:33:22', 1, '6efeeeabbf0638028cb2906e3ac36e861e9e8759a75837f935280060cb9d0ee3');
 
 

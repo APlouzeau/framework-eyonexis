@@ -69,16 +69,16 @@ githubaction.yml
 /backend/config/service-account-key.json
 /backend/vendor/
 /backend/config/client_*
-/backend/config/flepourtous-*
+/backend/config/YOUR_APP_NAME-*
 
 #cron
 renew_google_watch.sh
 sendAlertMail.sh
-switchDevFlepourtous.sh
-switchStartFlepourtous.sh
+switchDevYOUR_APP_NAME.sh
+switchStartYOUR_APP_NAME.sh
 
 #docker
 db_data
 
-flepourtous.zip
-Flepourtous.zip.env.staging
+YOUR_APP_NAME.zip
+YOUR_APP_NAME.zip.env.staging

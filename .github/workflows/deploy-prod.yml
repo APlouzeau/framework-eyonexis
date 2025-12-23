@@ -1,73 +1,73 @@
 name: Deploy to Production (Docker)
 
 on:
-  push:
-    branches:
-      - main  # Se déclenche quand une PR est mergée vers main (prod)
-  pull_request:
-    branches:
-      - main  # Lint uniquement pour valider la PR avant merge
-  workflow_dispatch:
+    push:
+        branches:
+            - main # Se déclenche quand une PR est mergée vers main (prod)
+    pull_request:
+        branches:
+            - main # Lint uniquement pour valider la PR avant merge
+    workflow_dispatch:
 
 jobs:
-  lint:
-    name: Lint Code
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    lint:
+        name: Lint Code
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.12.4
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: 10.12.4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "24.3"
-          cache: "pnpm"
-          cache-dependency-path: "frontend/pnpm-lock.yaml"
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "24.3"
+                  cache: "pnpm"
+                  cache-dependency-path: "frontend/pnpm-lock.yaml"
 
-      - name: Install frontend dependencies
-        working-directory: ./frontend
-        run: pnpm install --frozen-lockfile
+            - name: Install frontend dependencies
+              working-directory: ./frontend
+              run: pnpm install --frozen-lockfile
 
-      - name: Lint frontend
-        working-directory: ./frontend
-        run: pnpm lint
+            - name: Lint frontend
+              working-directory: ./frontend
+              run: pnpm lint
 
-  deploy:
-    name: Deploy to Production VPS with Docker
-    needs: lint
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to Production VPS
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST_PROD }}  # À créer dans tes secrets GitHub
-          username: ${{ secrets.SSH_USERNAME_PROD }}  # À créer dans tes secrets GitHub
-          key: ${{ secrets.SSH_KEY_PROD }}  # À créer dans tes secrets GitHub
-          script: |
-            set -e
-            echo "🚀 Starting Production Docker deployment..."
-            
-            cd ~/projects/projects/prod/flepourtous  # Chemin vers le repo prod
-            
-            echo "📥 Pulling latest changes from main..."
-            git fetch origin main
-            git reset --hard origin/main
-            
-            echo "🔍 Linting backend code..."
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml run --rm backend composer check-style || echo "⚠️ Backend lint warnings (non-blocking)"
-            
-            echo "🔨 Building and restarting containers..."
-            make restart-prod
-            
-            echo "🧹 Cleaning up old Docker images..."
-            docker image prune -f
-            
-            echo "✅ Production deployment complete!"
-            echo "📊 Container status:"
-            docker compose -f docker-compose.prod.yml ps
+    deploy:
+        name: Deploy to Production VPS with Docker
+        needs: lint
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to Production VPS
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.SSH_HOST_PROD }} # À créer dans tes secrets GitHub
+                  username: ${{ secrets.SSH_USERNAME_PROD }} # À créer dans tes secrets GitHub
+                  key: ${{ secrets.SSH_KEY_PROD }} # À créer dans tes secrets GitHub
+                  script: |
+                      set -e
+                      echo "🚀 Starting Production Docker deployment..."
+
+                      cd ~/projects/projects/prod/YOUR_APP_NAME  # Chemin vers le repo prod
+
+                      echo "📥 Pulling latest changes from main..."
+                      git fetch origin main
+                      git reset --hard origin/main
+
+                      echo "🔍 Linting backend code..."
+                      docker compose -f docker-compose.yml -f docker-compose.prod.yml run --rm backend composer check-style || echo "⚠️ Backend lint warnings (non-blocking)"
+
+                      echo "🔨 Building and restarting containers..."
+                      make restart-prod
+
+                      echo "🧹 Cleaning up old Docker images..."
+                      docker image prune -f
+
+                      echo "✅ Production deployment complete!"
+                      echo "📊 Container status:"
+                      docker compose -f docker-compose.prod.yml ps

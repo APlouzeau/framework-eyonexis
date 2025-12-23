@@ -2,6 +2,6 @@
     "eslint.workingDirectories": ["./frontend"],
     "sonarlint.connectedMode.project": {
         "connectionId": "eyonexis",
-        "projectKey": "APlouzeau_flepourtous"
+        "projectKey": "APlouzeau_YOUR_APP_NAME"
     }
 }

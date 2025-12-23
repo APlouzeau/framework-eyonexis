@@ -88,7 +88,7 @@ export default function Footer() {
                             <ul className="space-y-3">
                                 <li>
                                     <a
-                                        href="mailto:flepourtous.online@gmail.com?subject=Demande%20d'information&body=Bonjour,%0D%0A%0D%0AJe%20souhaiterais%20obtenir%20plus%20d'informations%20sur%20vos%20cours%20de%20français.%0D%0A%0D%0AMerci."
+                                        href="mailto:YOUR_APP_NAME.online@gmail.com?subject=Demande%20d'information&body=Bonjour,%0D%0A%0D%0AJe%20souhaiterais%20obtenir%20plus%20d'informations%20sur%20vos%20cours%20de%20français.%0D%0A%0D%0AMerci."
                                         className="text-gray-300 hover:text-white transition-colors duration-200"
                                     >
                                         Me contacter

@@ -192,10 +192,10 @@ export default function CGVPage() {
                             <p className="text-gray-700 mb-4">
                                 📧{" "}
                                 <a
-                                    href="mailto:flepourtous.online@gmail.com"
+                                    href="mailto:YOUR_APP_NAME.online@gmail.com"
                                     className="text-red-600 hover:text-red-700 underline"
                                 >
-                                    flepourtous.online@gmail.com
+                                    YOUR_APP_NAME.online@gmail.com
                                 </a>
                             </p>
                             <p className="text-gray-700">
@@ -218,10 +218,10 @@ export default function CGVPage() {
                                 </p>
                                 <p className="text-gray-700 mb-2">
                                     <a
-                                        href="mailto:flepourtous.online@gmail.com"
+                                        href="mailto:YOUR_APP_NAME.online@gmail.com"
                                         className="text-red-600 hover:text-red-700 underline"
                                     >
-                                        flepourtous.online@gmail.com
+                                        YOUR_APP_NAME.online@gmail.com
                                     </a>
                                 </p>
                                 <p className="text-gray-700 mb-2">SIRET : 93014344100010</p>

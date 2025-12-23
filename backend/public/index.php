@@ -4,7 +4,7 @@
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowedOrigins = [
     'http://localhost:3000',
-    'https://flepourtous.fr',
+    'https://YOUR_APP_NAME.fr',
 ];
 
 
@@ -30,6 +30,7 @@ define("APP_PATH", __DIR__ . "/../");
 define("BASE_URL", "/");
 
 require_once APP_PATH . "config/config.php";
+require_once APP_PATH . "config/constants.php";
 
 session_set_cookie_params([
     'lifetime' => 0,

@@ -167,10 +167,10 @@ export default function ReglementInterieurPage() {
                                 Pour toute question pédagogique ou administrative, vous pouvez contacter
                                 l&apos;enseignante par email à
                                 <a
-                                    href="mailto:flepourtous.online@gmail.com"
+                                    href="mailto:YOUR_APP_NAME.online@gmail.com"
                                     className="text-red-600 hover:text-red-700 underline ml-1"
                                 >
-                                    flepourtous.online@gmail.com
+                                    YOUR_APP_NAME.online@gmail.com
                                 </a>
                                 ou via le formulaire de contact sur le site.
                             </p>
