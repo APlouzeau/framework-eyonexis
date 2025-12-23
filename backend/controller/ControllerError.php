@@ -14,32 +14,27 @@ class ControllerError
     public function validateData($data, string $errorMessage, int $httpCode = 400)
     {
         if (empty($data)) {
-            http_response_code($httpCode);
-            $response = [
-                'code' => 0,
-                'message' => $errorMessage
-            ];
-            echo json_encode($response);
-            return false;
+            JsonResponse::error(
+                $errorMessage,
+                $httpCode
+            );
         }
         return true;
     }
 
     public function unauthorizedResponse(string $message = 'Unauthorized')
     {
-        http_response_code(401);
-        echo json_encode([
-            'code' => 0,
-            'message' => $message
-        ]);
+        JsonResponse::error(
+            $message,
+            401
+        );
     }
 
     public function serverErrorResponse(string $message = 'Erreur serveur')
     {
-        http_response_code(500);
-        echo json_encode([
-            'code' => 0,
-            'message' => $message
-        ]);
+        JsonResponse::error(
+            $message,
+            500
+        );
     }
 }

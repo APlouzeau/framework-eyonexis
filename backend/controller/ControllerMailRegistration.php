@@ -6,33 +6,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-class ControllerBaseMail
+class ControllerMailRegistration extends ControllerBaseMail
 {
-    protected $mailer;
-    const MAIL_LOG_FILE = "mail";
-
-    public function __construct()
-    {
-        $this->mailer = new PHPMailer(true);
-
-        try {
-
-            $this->mailer->isSMTP();
-            $this->mailer->Host = MAIL_HOST;
-            $this->mailer->SMTPAuth = true;
-            $this->mailer->Username = MAIL_USERNAME;
-            $this->mailer->Password = MAIL_PASSWORD;
-            $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-            $this->mailer->Port = MAIL_PORT;
-            $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
-
-            $this->mailer->CharSet = 'UTF-8';
-
-            $this->mailer->setFrom(MAIL_USERNAME, 'YOUR_APP_NAME - Support');
-        } catch (Exception $e) {
-            throw new Exception("Mailer could not be initialized: " . $e->getMessage());
-        }
-    }
 
     public function sendMailToRegister(EntitieUser $user, $verificationToken)
     {

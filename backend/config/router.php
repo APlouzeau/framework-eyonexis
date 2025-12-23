@@ -1,27 +1,22 @@
 <?php
 
 // Connexion
-$router->addRoute("GET", BASE_URL, "ControllerUser", "loginPage");
-$router->addRoute("GET", "/login", "ControllerUser", "loginPage");
-$router->addRoute("POST", "/api/login", "ControllerUser", "login");
-$router->addRoute("POST", "/api/logout", "ControllerUser", "logout");
-$router->addRoute("POST", "/api/register", "ControllerUser", "register");
+$router->addRoute("POST", "/api/login", "ControllerUserAuth", "login");
+$router->addRoute("POST", "/api/logout", "ControllerUserAuth", "logout");
+$router->addRoute("POST", "/api/register", "ControllerUserRegistration", "register");
 $router->addRoute("POST", "/api/verifyConnect", "ControllerUser", "verifyConnect");
 
-// Navigation
-$router->addRoute("GET", "/home", "ControllerUser", "homePage");
-
 //Users
-$router->addRoute("GET", "/api/users", "ControllerUser", "listUsers");
-$router->addRoute("POST", "/api/userInformations", "ControllerUser", "getUserInformations");
-$router->addRoute("POST", "/api/updateUserProfile", "ControllerUser", "updateUserProfile");
-$router->addRoute("GET", "/api/verify-email/{token}", "ControllerUser", "verifyEmail");
+$router->addRoute("GET", "/api/users", "ControllerUserManagement", "listUsers");
+$router->addRoute("POST", "/api/userInformations", "ControllerUserProfile", "getUserInformations");
+$router->addRoute("POST", "/api/updateUserProfile", "ControllerUserProfile", "updateUserProfile");
+$router->addRoute("GET", "/api/verify-email/{token}", "ControllerUserRegistration", "verifyEmail");
 $router->addRoute("POST", "/api/getWallet", "ControllerOrder", "getWallet");
-$router->addRoute("POST", "/api/updateUserProfile", "ControllerUser", "updateUserProfile");
-$router->addRoute("POST", "/api/updateUserPassword", "ControllerUser", "updateUserPassword");
-$router->addRoute("POST", "/api/forgetedPassword", "ControllerUser", "forgetedPassword");
-$router->addRoute("GET", "/api/reset-password/{token}", "ControllerUser", "resetPasswordLink");
-$router->addRoute("POST", "/api/resetPassword", "ControllerUser", "resetPassword");
+$router->addRoute("POST", "/api/updateUserProfile", "ControllerUserProfile", "updateUserProfile");
+$router->addRoute("POST", "/api/updateUserPassword", "ControllerUserProfile", "updateUserPassword");
+$router->addRoute("POST", "/api/forgetedPassword", "ControllerUserAuth", "forgetedPassword");
+$router->addRoute("GET", "/api/reset-password/{token}", "ControllerUserAuth", "resetPasswordLink");
+$router->addRoute("POST", "/api/resetPassword", "ControllerUserAuth", "resetPassword");
 
 //Lessons
 $router->addRoute("GET", "/api/lessons", "ControllerLesson", "getAllLessons");
